@@ -1,0 +1,272 @@
+/* --- AdsCampaignPro Base Styles --- */
+
+.adcp-wrapper {
+    position: fixed;
+    z-index: 99998; /* High, but below menus */
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    opacity: 0;
+    transition: all 0.4s ease-out;
+    box-sizing: border-box;
+    
+    /* --- CSS FIX (Close Button) --- */
+    /* This fixes the bug where the 'X' button was cut off. */
+    /* It allows elements positioned 'outside' the box to be visible. */
+    overflow: visible !important;
+}
+
+.adcp-wrapper.adcp-visible {
+    opacity: 1;
+}
+
+/* Close Button */
+.adcp-close {
+    position: absolute;
+    /* --- CSS FIX (Close Button) --- */
+    /* These values position the button *outside* the wrapper. */
+    /* This requires 'overflow: visible;' on .adcp-wrapper. */
+    top: -12px;
+    right: -12px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    /* End of new/changed styles */
+    
+    font-weight: bold;
+    color: #fff;
+    background: #000;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    line-height: 26px; /* Adjust for 30px height */
+    text-align: center;
+    z-index: 99999; /* Highest z-index */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.adcp-close:hover {
+    color: #fff;
+    background: #d00; /* Red on hover */
+}
+
+
+/*
+ * --- CSS FIX (Ads Covering Header) ---
+ *
+ * This is a 'z-index' problem. Your ad wrapper (like the green "SPONSOR" box)
+ * has a z-index of 99998. The red 'X' button has 99999 (so it's on top).
+ *
+ * Your green box is covering your site header, which means YOUR THEME'S HEADER
+ * has a z-index *lower* than 99998.
+ *
+ * To fix this, you must add CSS to YOUR THEME'S "Additional CSS" panel
+ * in the WordPress Customizer.
+ *
+ * Find your header's class/ID (e.g., .main-header, #site-header) and add this:
+ *
+ * .your-theme-header-class {
+ * position: relative;
+ * z-index: 9999; 
+ * }
+ *
+ * Pick a z-index that is *lower* than the ad (99998) but *higher* than
+ * other page content. '9999' is usually a safe bet.
+ *
+ */
+
+
+/* --- Type: Popup (Modal) --- */
+.adcp-type-popup {
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    max-width: 500px;
+    min-height: 200px;
+    transform: translate(-50%, -50%) scale(0.9);
+    padding: 20px;
+}
+.adcp-type-popup.adcp-visible {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* --- Type: Slide-in (Bottom Right) --- */
+.adcp-type-slide {
+    bottom: 20px;
+    right: 20px;
+    width: 90%;
+    max-width: 350px;
+    transform: translateX(110%);
+    padding: 15px;
+}
+.adcp-type-slide.adcp-visible {
+    transform: translateX(0);
+}
+
+/* --- Type: Scroll Bar (Top) --- */
+/* This style makes the scroll ad flexible and not cover content (it pushes down) */
+.adcp-type-scroll {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    transform: translateY(-100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    /* Use a z-index from your settings (e.g., 100) so it's *under* the header */
+    /* z-index: 100; (This is now set by the 'priority' field in admin) */
+}
+.adcp-type-scroll.adcp-visible {
+    transform: translateY(0);
+}
+.adcp-type-scroll .adcp-content-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    flex-grow: 1; 
+    margin-right: 40px; 
+}
+.adcp-type-scroll .adcp-close {
+    position: relative; 
+    top: auto; 
+    right: auto;
+    transform: none; 
+    flex-shrink: 0;
+    background: transparent;
+    color: #999;
+    border: 0;
+    box-shadow: none;
+    font-size: 24px;
+    top: -2px; 
+}
+.adcp-type-scroll .adcp-close:hover {
+    color: #333;
+    background: transparent;
+}
+.adcp-type-scroll .adcp-headline,
+.adcp-type-scroll .adcp-subtext {
+    margin: 0 10px;
+}
+.adcp-type-scroll .adcp-cta {
+    margin-left: 15px;
+}
+
+/* --- Type: Embed (Shortcode) Card Styles --- */
+.adcp-embed-wrapper {
+    display: block;
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden; 
+    max-width: 700px; 
+    margin: 20px auto; 
+    font-family: Arial, sans-serif;
+    text-decoration: none;
+    color: #333;
+    opacity: 0; 
+    transition: opacity 0.5s;
+}
+
+/* Makes sure custom HTML fills the container */
+.adcp-embed-wrapper .adcp-creative-html {
+    display: block;
+    width: 100%;
+}
+.adcp-embed-wrapper .adcp-creative-html img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* "Upload" mode styles */
+.adcp-embed-wrapper .adcp-creative-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+.adcp-embed-wrapper .adcp-headline {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #111;
+    margin: 16px 20px 8px;
+}
+.adcp-embed-wrapper .adcp-subtext {
+    font-size: 1em;
+    color: #555;
+    margin: 0 20px 16px;
+    line-height: 1.5;
+}
+.adcp-embed-wrapper .adcp-cta {
+    display: inline-block;
+    background: #0073aa; /* WP Blue */
+    color: #fff;
+    padding: 12px 20px;
+    margin: 0 20px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.adcp-embed-wrapper .adcp-cta:hover {
+    background: #005177;
+}
+
+
+/* --- Content Styles (for Popups/Overlays) --- */
+.adcp-wrapper .adcp-content-wrap {
+    flex-grow: 1;
+}
+.adcp-wrapper .adcp-creative-img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+.adcp-wrapper .adcp-creative-video {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+.adcp-wrapper .adcp-headline {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 10px;
+}
+.adcp-wrapper .adcp-subtext {
+    font-size: 1em;
+    color: #555;
+    margin: 0 0 15px;
+}
+.adcp-wrapper .adcp-cta {
+    display: inline-block;
+    background: #0073aa; /* WP Blue */
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.adcp-wrapper .adcp-cta:hover {
+    background: #005177;
+}
+
+/* --- Clickable Image Wrapper --- */
+.adcp-wrapper a.adcp-creative-img-link,
+.adcp-embed-wrapper a.adcp-creative-img-link {
+    display: block;
+    line-height: 0; /* Prevents extra space */
+}
+.adcp-wrapper a.adcp-creative-img-link img,
+.adcp-embed-wrapper a.adcp-creative-img-link img {
+    /* Reset any borders that might be inherited */
+    border-bottom: 0; 
+}
